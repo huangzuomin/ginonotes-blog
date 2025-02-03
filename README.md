@@ -97,3 +97,107 @@ pnpm dev
 ## 开发路线图
 
 查看 [tasks.md](./tasks.md) 了解计划中的功能和改进。
+
+## 媒体文件管理
+
+本博客使用 Cloudflare R2 存储来管理媒体文件（图片、视频等）。提供了一个自动化工具来处理媒体文件的上传、替换和清理。
+
+### 配置
+
+1. 在 Cloudflare R2 控制台创建存储桶并获取以下信息：
+   - Account ID
+   - R2 Access Key ID
+   - R2 Secret Access Key
+   - Bucket Name
+   - Public URL（如果配置了自定义域名）
+
+2. 在项目根目录创建 `.env` 文件并填写以下配置：
+```env
+CLOUDFLARE_ACCOUNT_ID=your_account_id
+R2_ACCESS_KEY_ID=your_access_key_id
+R2_SECRET_ACCESS_KEY=your_secret_access_key
+R2_BUCKET_NAME=your_bucket_name
+R2_PUBLIC_URL=https://your-public-bucket-url.r2.dev
+```
+
+### 使用方法
+
+使用以下命令来管理媒体文件：
+
+```bash
+# 正常运行（上传新文件并清理未使用的文件）
+pnpm upload-media
+
+# 测试运行（不会实际修改文件）
+pnpm upload-media --dry-run
+
+# 跳过备份
+pnpm upload-media --skip-backup
+
+# 跳过清理未使用的文件
+pnpm upload-media --skip-cleanup
+
+# 显示帮助信息
+pnpm upload-media --help
+```
+
+### 功能特点
+
+1. 自动处理：
+   - 自动扫描 MDX 文件中的媒体引用
+   - 自动上传新的媒体文件到 R2
+   - 自动更新 MDX 文件中的引用路径
+   - 自动清理未使用的本地文件
+
+2. 文件验证：
+   - 支持的文件类型：jpg、jpeg、png、gif、webp、mp4、mov、webm
+   - 文件大小限制：50MB
+   - 自动检测文件类型和 MIME 类型
+
+3. 安全特性：
+   - 自动备份被修改或删除的文件
+   - 保留最近 7 天的备份
+   - 测试模式支持（--dry-run）
+   - 详细的操作日志
+
+4. 性能优化：
+   - 并发处理提高效率
+   - 可配置并发数量
+   - 进度条显示
+
+### 注意事项
+
+1. 首次运行建议使用 `--dry-run` 选项进行测试
+2. 建议在修改文件前进行备份
+3. 被删除的文件可以在 `backups` 目录找到（保留 7 天）
+4. 确保 `.env` 文件已正确配置且不要提交到 Git
+
+### 配置文件
+
+可以在 `scripts/config.ts` 中自定义以下配置：
+
+```typescript
+{
+  // 允许的文件类型和 MIME 类型
+  mimeTypes: { ... },
+  // 文件大小限制（默认 50MB）
+  maxFileSize: 50 * 1024 * 1024,
+  // 并发上传数量
+  concurrency: 3,
+  // 缓存控制
+  cacheControl: 'public, max-age=31536000',
+  // 备份设置
+  backup: {
+    enabled: true,
+    dir: 'backups',
+    keepDays: 7,
+  },
+  // 路径设置
+  paths: {
+    public: 'public',
+    images: 'images',
+    covers: 'covers',
+    posts: 'posts',
+  }
+}
+```

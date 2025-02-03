@@ -4,7 +4,7 @@ date: 2024-07-14
 description: 本文详细介绍了 BestBlogs.dev 如何利用 Dify Workflow 实现文章的自动化分析流程。从文章初评到深度分析，再到多语言翻译的全过程，通过采用 Dify 平台提高了内容处理的效率和质量。文章分享了实施过程中的经验教训，以及对 Dify Workflow 的使用感受，为有类似需求的开发者提供参考。
 category: build
 tags: BestBlogs, Dify, LLM, Workflow, Prompt, OpenSource
-cover: /covers/cover7.jpeg
+cover: https://media.ginonotes.com/covers/cover7.jpeg
 slug: bestblogs-dify-workflow-practice
 ---
 
@@ -24,7 +24,7 @@ slug: bestblogs-dify-workflow-practice
 
 - **一键翻译，跨越语言障碍（开发中）**：借助领先的翻译技术，我们打破语言界限，让全球开发者无碍阅读并吸收来自世界各地的卓越知识。
 
-![BestBlogs 文章页面](/images/20240714_bestblogs_use_dify_workflow/article_detail_page_zh.png)
+![BestBlogs 文章页面](https://media.ginonotes.com/images/20240714_bestblogs_use_dify_workflow/article_detail_page_zh.png)
 
 ### Dify Workflow 简介
 
@@ -34,7 +34,7 @@ Dify Workflow 是一个强大的 LLMOps 平台，专为构建复杂的 AI 应用
 
 原先网站采用了一个非常大而全的提示词用来实现文章的摘要、标签生成、评分及翻译工作，过多的任务使得输出效果难以控制和优化，比如摘要内容经常遗漏重要信息、标签的生成缺乏统一、评分标准调整调试麻烦、翻译结果过于生硬，以及在运维上修改、测试和部署麻烦。
 
-![原先使用的提示词](/images/20240714_bestblogs_use_dify_workflow/original_prompt.png)
+![原先使用的提示词](https://media.ginonotes.com/images/20240714_bestblogs_use_dify_workflow/original_prompt.png)
 
 ## 为什么选择 Dify ？
 
@@ -79,13 +79,13 @@ Dify Workflow 是一个强大的 LLMOps 平台，专为构建复杂的 AI 应用
 - **文章分析流程**：通过大语言模型对文章进行摘要、分类和评分，生成一句话总结、文章摘要、主要观点、文章金句、所属领域、标签列表和评分等，便于读者快速过滤筛选及了解全文主要内容，判断是否继续阅读。包括 *分段分析 - 汇总分析 - 领域划分和标签生成 - 文章评分 - 检查反思 - 优化改进* 等节点。
 - **分析结果翻译流程**：通过大语言模型对文章分析结果进行翻译，目前网站支持中英两种语言，根据原文语言和目标语言对摘要、主要观点、文章金句、标签列表等进行翻译。包括 *识别专业术语 & 初次翻译 - 检查翻译 - 意译* 等环节。
 
-![网站主流程](/images/20240714_bestblogs_use_dify_workflow/bestblogs_main_flow.png)
+![网站主流程](https://media.ginonotes.com/images/20240714_bestblogs_use_dify_workflow/bestblogs_main_flow.png)
 
 **以下流程的 DSL 文件和各个节点的提示词已更新到 [BestBlogs 项目](https://github.com/ginobefun/bestblogs)，欢迎查看和讨论。**
 
 ### 文章初评流程
 
-![文章初评流程](/images/20240714_bestblogs_use_dify_workflow/filter_article_flow_chinese_article_result.png)
+![文章初评流程](https://media.ginonotes.com/images/20240714_bestblogs_use_dify_workflow/filter_article_flow_chinese_article_result.png)
 
 流程说明：
 
@@ -94,11 +94,11 @@ Dify Workflow 是一个强大的 LLMOps 平台，专为构建复杂的 AI 应用
 - 文章初评 LLM 节点通过 CO-STAR 提示词框架定义上下文、目标、分析步骤、输入输出格式，提供输出示例，完整的提示词可以在上述项目地址查看。
 - 网站应用通过 Dify Workflow 开放的 API 传入文章 ID，获取文章的初评结果，根据 ignore 和 value 属性判断是否继续往下处理。
 
-![流程调用代码](/images/20240714_bestblogs_use_dify_workflow/run_flow_by_java.png)
+![流程调用代码](https://media.ginonotes.com/images/20240714_bestblogs_use_dify_workflow/run_flow_by_java.png)
 
 ### 文章分析流程
 
-![文章分析流程](/images/20240714_bestblogs_use_dify_workflow/analyze_article_flow_long_article_result2.png)
+![文章分析流程](https://media.ginonotes.com/images/20240714_bestblogs_use_dify_workflow/analyze_article_flow_long_article_result2.png)
 
 流程说明：
 
@@ -114,7 +114,7 @@ Dify Workflow 是一个强大的 LLMOps 平台，专为构建复杂的 AI 应用
 
 ### 分析结果翻译流程
 
-![分析结果翻译流程](/images/20240714_bestblogs_use_dify_workflow/translate_article_flow_result.png)
+![分析结果翻译流程](https://media.ginonotes.com/images/20240714_bestblogs_use_dify_workflow/translate_article_flow_result.png)
 
 流程说明：
 
@@ -127,7 +127,7 @@ Dify Workflow 是一个强大的 LLMOps 平台，专为构建复杂的 AI 应用
 - 相比于之前采用单个提示词的方式，采用 Workflow 分析文章结果比原先更好，摘要内容更加全面，还有主要观点和文章金句作为参考，文章评分更加标准化。
 - 另外，采用 Workflow 的方式能够快速的调整提示词，详细的运行日志能够及时定位和改进。
 
-![运行日志](/images/20240714_bestblogs_use_dify_workflow/task_logs.png)
+![运行日志](https://media.ginonotes.com/images/20240714_bestblogs_use_dify_workflow/task_logs.png)
 
 ## 总结与展望
 

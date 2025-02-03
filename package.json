@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "upload-media": "tsx scripts/uploadMedia.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.740.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@types/glob": "^8.1.0",
     "@types/node": "^20.11.16",
     "@types/react": "^18.2.52",
     "@types/react-dom": "^18.2.18",
@@ -21,9 +24,11 @@
     "clsx": "^2.1.0",
     "contentlayer": "0.3.4",
     "date-fns": "^3.3.1",
+    "dotenv": "^16.4.7",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
     "framer-motion": "10.16.4",
+    "glob": "^11.0.1",
     "lucide-react": "^0.321.0",
     "next": "14.1.0",
     "next-contentlayer": "0.3.4",
@@ -46,7 +51,9 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.11"
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2"
   },
   "packageManager": "pnpm@8.14.3"
 }
