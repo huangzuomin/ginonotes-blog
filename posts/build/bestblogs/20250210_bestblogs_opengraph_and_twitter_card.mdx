@@ -164,6 +164,8 @@ BestBlogs.dev 首页及文章列表等页面使用的是静态元数据，OpenGr
 
 ![Open Graph Image Generator](https://media.ginonotes.com/images/20250210_bestblogs_opengraph_and_twitter_card/open_graph_image_generator.png)
 
+PS：如果你喜欢写代码来生成静态图片，建议使用 [Vercel Open Graph Play Ground](https://og-playground.vercel.app/) 这个在线工具，它还支持使用 Tailwind 来编写样式，非常方便。
+
 ### 动态元数据
 
 动态元数据在 [`generateMetadata` 函数](https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata) 中生成，可以基于页面内容动态生成元数据，此时可以指定特定文章的 OpenGraph 或者 Twitter Card 的图片，之前的版本 BestBlogs.dev 使用的是文章的封面地址。以下是一个示例：
