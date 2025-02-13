@@ -11,6 +11,7 @@ import {
   FaGithub,
   FaTwitter,
   FaRobot,
+  FaWeixin,
 } from 'react-icons/fa'
 import { allPosts } from 'contentlayer/generated'
 import { createCategoryRoute } from '@/lib/routes'
@@ -69,6 +70,11 @@ export const navigation: NavigationConfig = {
       href: 'https://twitter.com/hongming731',
       label: 'Twitter',
       icon: FaTwitter,
+    },
+    {
+      href: 'https://mp.weixin.qq.com/s/FrclcGRZKM6fgHn9FXSxBg',
+      label: '微信公众号',
+      icon: FaWeixin,
     },
   ],
 }
