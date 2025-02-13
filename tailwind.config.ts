@@ -39,10 +39,41 @@ const config: Config = {
         },
       },
       typography: {
-        quoteless: {
+        DEFAULT: {
           css: {
-            'blockquote p:first-of-type::before': { content: 'none' },
-            'blockquote p:first-of-type::after': { content: 'none' },
+            blockquote: {
+              backgroundColor: 'var(--tw-prose-quote-bg)',
+              borderRadius: '1rem',
+              padding: '1.5rem',
+              marginTop: '2rem',
+              marginBottom: '2rem',
+              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+              position: 'relative',
+              '&::before': {
+                content: '"""',
+                position: 'absolute',
+                left: '-0.75rem',
+                top: '-0.75rem',
+                fontSize: '2.5rem',
+                color: 'var(--tw-prose-quote-marks)',
+                opacity: '0.2',
+              },
+              '&::after': {
+                content: '"""',
+                position: 'absolute',
+                right: '-0.75rem',
+                bottom: '-0.75rem',
+                fontSize: '2.5rem',
+                color: 'var(--tw-prose-quote-marks)',
+                opacity: '0.2',
+              },
+              'p:first-of-type::before': {
+                content: 'none',
+              },
+              'p:last-of-type::after': {
+                content: 'none',
+              },
+            },
           },
         },
       },
