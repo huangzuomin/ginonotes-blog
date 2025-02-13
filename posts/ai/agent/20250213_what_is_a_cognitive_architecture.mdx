@@ -1,0 +1,49 @@
+---
+title: 什么是认知架构？[译]
+date: 2025-02-13
+description: 本文深入探讨了认知架构的概念，从纯代码实现到自主代理，详细阐述了 LLM 应用中六个不同的自主程度。通过对比不同认知架构的特点，帮助开发者更好地理解和选择适合自己项目的架构方案。
+category: ai
+tags: AI, Cognitive, LLM, AI Agent, LangChain, LangGraph, Architecture
+cover: https://media.ginonotes.com/covers/cover_cognitive_architecture.jpeg
+slug: what-is-a-cognitive-architecture
+---
+
+**更新：** 有读者指出，"认知架构"一词在神经科学和计算认知科学领域有着[丰富的历史](https://en.wikipedia.org/wiki/Cognitive_architecture)。根据维基百科，"认知架构指的是关于人类思维结构的理论以及这种理论的计算实例"。该定义（以及相关的研究和文章）比本文提供的任何解释都更为全面。因此，本文应被理解为作者基于过去一年在构建 LLM 驱动应用的经验，与该研究领域进行的一次理论映射尝试。
+
+过去六个月，我经常使用"认知架构"这个词，而且将来还会更频繁地使用。这个词最初来自 [Flo Crivello](https://x.com/Altimor) —— 提出这个词完全归功于他，我认为这是一个非常棒的术语。那么，我到底想表达什么呢？
+
+我所说的认知架构，是指_你的系统如何思考_ —— 换句话说，就是系统从接收用户输入到执行操作或生成响应的过程中，代码、提示（prompts）和 LLM 调用之间的流程。
+
+我喜欢"认知"这个词，因为具备代理能力的系统依赖于使用 LLM 来推理下一步该做什么。
+
+我喜欢"架构"这个词，因为这些代理系统仍然涉及到大量的工程设计，类似于传统的系统架构。
+
+## 将自主程度映射到认知架构
+
+回顾这张幻灯片（最初来自[我的 TED 演讲](https://www.ted.com/talks/harrison_chase_the_magical_ai_assistants_of_the_future_and_the_engineering_behind_them)），它展示了 LLM 应用中不同的自主程度，我们可以看到不同认知架构的例子。
+
+![大语言模型应用自主程度](https://media.ginonotes.com/covers/whatisagent.png)
+
+首先是纯代码实现——一切都被硬编码，甚至算不上真正的认知架构。
+
+其次是单次 LLM 调用。可能在调用前后有简单的数据预处理，但应用的主体仍然是单次 LLM 调用。简单的聊天机器人通常属于这一类。
+
+接下来是 LLM 调用链。这一调用链可能用于将问题拆分为多个步骤，或者服务于不同的目的。更复杂的 RAG (Retrieval-Augmented Generation，检索增强生成) 流程就属于这一类：先用一次 LLM 调用生成搜索查询，再通过第二次调用得到答案。
+
+然后是加入了路由器（router）的架构。在此之前，你预先知道应用将采取的所有步骤；而现在，LLM 来决定采取哪些操作，这使得流程增加了随机性和不可预测性。
+
+接下来的级别可以称之为状态机（state machine）。这种架构结合了 LLM 的路由功能和循环机制，其不可预测性更高，因为理论上这种组合可能使系统无限次调用 LLM。
+
+最后一个自治级别是我所称的"代理"（agent），或者更准确地说是"自主代理"。在状态机中，可以采取的操作及其后续流程仍然受到限制。而在自主代理中，这些限制被取消，系统开始自主决定可执行的步骤以及相应指令，这一过程可以通过动态更新提示、工具或驱动系统代码来实现。
+
+## 如何选择认知架构
+
+当我谈及"如何选择认知架构"时，我的意思是选择以上这些架构中的某一种来采用。没有哪一种架构是绝对"更好"的 —— 它们各自都适用于不同的任务场景。
+
+构建 LLM 应用时，你可能需要像调整提示词一样频繁地试验不同的认知架构。为此，我们构建了 [LangChain](https://www.langchain.com/langchain) 和 [LangGraph](https://www.langchain.com/langgraph)。过去一年，我们的大部分开发工作都集中在构建低层次、具有高度可控性的编排框架（LCEL 和 LangGraph）上。
+
+这一策略与早期的 LangChain 不同，早期的产品主要注重提供现成且易于使用的组件。这种设计虽然非常适合快速入门，但在个性化定制和实验方面存在不足。最初，这种方式足以满足大家的需求，但随着领域的发展，其局限性很快就暴露出来。
+
+我为我们在过去一年中对 LangChain 和 LangGraph 所做的改进感到由衷的自豪，这些改进让它们变得更加灵活和可定制。如果你之前只是通过高级封装接口使用 LangChain，不妨深入了解一下其底层组件，它们更易于定制，能让你真正掌控应用的认知架构。
+
+原文地址：[What is a "cognitive architecture"?](https://blog.langchain.dev/what-is-a-cognitive-architecture/)
