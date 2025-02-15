@@ -4,7 +4,7 @@ date: 2025-02-15
 description: 本文分享了如何利用 Dify 平台构建 AI 驱动的多轮评审润色 Workflow，将英文技术文章改写为高质量的中文内容。该流程通过 FireCrawl 抓取、LLM 初步改写、多轮并行评审、综合改进和最后润色等步骤，有效避免了"翻译腔"，提升了文章质量。文章详细介绍了 Workflow 设计、Prompt Engineering 技巧、模型选择和后续流程，并分享了实践经验和未来展望。
 category: build
 tags:  Dify, FireCrawl, LLM, Workflow, Prompt, Translation
-cover: https://media.ginonotes.com/covers/cover_translation_flow.jpeg
+cover: /covers/cover_translation_flow2.jpeg
 slug: ai-driven-multi-round-review-translation-workflow
 ---
 
@@ -132,9 +132,9 @@ Prompt Engineering 是整个 Workflow 的核心。下面我将简要介绍每个
 
 在本次实践中，我主要使用了以下 LLM 模型：
 
-*   **初步改写、LLM2 评审、综合改进、最后润色：** Google Gemini 2.0 Flash。选择该模型的原因是它具有超长的上下文处理能力（适合处理长文章）、响应速度快、性价比高。
-*   **LLM 1 评审：** Qwen-max-latest。选择该模型是因为它在中文语言理解和生成方面表现出色，特别擅长处理长文本和复杂的语言结构。
-*   **LLM 3 评审：** OpenAI o3-mini， 在翻译任务和中文理解方面表现出色。
+*   **初步改写、LLM3 评审、综合改进、最后润色：** Google Gemini 2.0 Flash。选择该模型的原因是它具有超长的上下文处理能力（适合处理长文章）、响应速度快、性价比高。
+*   **LLM 1 评审：** Qwen-max-latest。虽然最初计划使用 DeepSeek 模型，但由于缺乏稳定的调用渠道，最终选择了在中文语言理解和生成方面同样出色的 Qwen-max-latest，它特别擅长处理长文本和复杂的语言结构。
+*   **LLM 2 评审：** OpenAI o3-mini， 在翻译任务和中文理解方面表现出色。
 
 ## 效果展示
 
