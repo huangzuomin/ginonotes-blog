@@ -51,6 +51,7 @@ interface Post {
   tags?: string[]
   description?: string
   cover?: string
+  featured?: boolean
   url: string
   body: {
     raw: string

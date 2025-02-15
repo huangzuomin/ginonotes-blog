@@ -17,6 +17,7 @@ export const Post = defineDocumentType(() => ({
     tags: { type: 'string' },
     cover: { type: 'string' },
     slug: { type: 'string' },
+    featured: { type: 'boolean', default: false },
   },
   computedFields: {
     url: {

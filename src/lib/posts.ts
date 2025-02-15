@@ -22,14 +22,24 @@ export function getCategoryStats(posts: Post[]) {
  * 获取最新的特色文章
  */
 export function getFeaturedPost(posts: Post[]) {
+  // 仅获取特色文章中最新的一篇
+  const featuredPosts = getSortedPosts(posts.filter(post => post.featured))
+  if (featuredPosts.length > 0) {
+    return featuredPosts[0]
+  }
+
+  // 如果没有任何特色文章，则获取最新的文章
   return getSortedPosts(posts)[0]
 }
 
 /**
- * 获取最近的 N 篇文章（不包含特色文章）
+ * 获取最近的 N 篇文章（不包含最新的特色文章）
  */
 export function getRecentPosts(posts: Post[], count: number = 10) {
-  const sortedPosts = getSortedPosts(posts)
-  // 排除第一篇特色文章
-  return sortedPosts.slice(1, count + 1)
-} 
+  // 获取最新的特色文章
+  const featuredPost = getFeaturedPost(posts)
+
+  // 从最新的文章（排除特色文章）中选取 N 篇
+  const recentPosts = getSortedPosts(posts.filter(post => post._id !== featuredPost._id))
+  return recentPosts.slice(0, count)
+}
