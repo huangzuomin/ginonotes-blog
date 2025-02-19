@@ -72,7 +72,7 @@ export const navigation: NavigationConfig = {
       icon: FaTwitter,
     },
     {
-      href: 'https://mp.weixin.qq.com/s/FrclcGRZKM6fgHn9FXSxBg',
+      href: 'https://mp.weixin.qq.com/s/5ulE6cqhyHDNhhDT08hOXA',
       label: '微信公众号',
       icon: FaWeixin,
     },
