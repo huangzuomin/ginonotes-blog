@@ -3,9 +3,20 @@ import { compareDesc } from 'date-fns'
 
 /**
  * 获取按日期排序的文章列表
+ * 对于日期相同的文章，按标题排序
  */
 export function getSortedPosts(posts: Post[]) {
-  return posts.sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)))
+  return posts.sort((a, b) => {
+    // 首先按日期降序排序
+    const dateComparison = compareDesc(new Date(a.date), new Date(b.date))
+    
+    // 如果日期相同，则按标题升序排序
+    if (dateComparison === 0) {
+      return a.title.localeCompare(b.title, 'zh-CN')
+    }
+    
+    return dateComparison
+  })
 }
 
 /**
