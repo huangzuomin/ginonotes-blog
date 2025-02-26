@@ -12,6 +12,7 @@ import {
   FaTwitter,
   FaRobot,
   FaWeixin,
+  FaFeather,
 } from 'react-icons/fa'
 import { allPosts } from 'contentlayer/generated'
 import { createCategoryRoute } from '@/lib/routes'
@@ -60,9 +61,9 @@ export const navigation: NavigationConfig = {
   ],
   projects: [
     { href: 'https://bestblogs.dev', label: 'BestBlogs.dev', icon: FaCode },
-    { href: 'https://bitflowing.net', label: 'BitFlowing', icon: FaBrain },
-    { href: 'https://hiagent.io', label: 'HiAgent', icon: FaRobot },
-    { href: 'https://tiky.ai', label: 'Tiky AI', icon: FaLightbulb },
+    { href: 'https://wenrun.ai', label: 'WenRun.ai', icon: FaFeather },
+    { href: 'https://hiagent.io', label: 'HiAgent.io', icon: FaRobot },
+    { href: 'https://tiky.ai', label: 'Tiky.ai', icon: FaLightbulb },
   ],
   online: [
     { href: 'https://github.com/ginobefun', label: 'GitHub', icon: FaGithub },
