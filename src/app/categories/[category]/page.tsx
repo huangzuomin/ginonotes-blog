@@ -1,6 +1,6 @@
 import { allPosts } from 'contentlayer/generated'
 import { compareDesc } from 'date-fns'
-import { CATEGORY_MAP } from '@/lib/images'
+import { CATEGORY_MAP } from '@/lib/images' // 确保导入了 CATEGORY_MAP
 import { notFound } from 'next/navigation'
 import { CategoryPageContent } from '@/components/category/CategoryPageContent'
 import { Container } from '@/components/common/Container'
@@ -18,7 +18,7 @@ interface CategoryPageProps {
 
 export default function CategoryPage({ params, searchParams }: CategoryPageProps) {
   // 验证分类是否有效
-  if (!Object.keys(CATEGORY_MAP).includes(params.category)) {
+  if (!Object.keys(CATEGORY_MAP).includes(params.category)) { // 使用更新后的 CATEGORY_MAP 进行验证
     notFound()
   }
 
@@ -39,7 +39,7 @@ export default function CategoryPage({ params, searchParams }: CategoryPageProps
     <Container size="lg">
       <div className="py-12 sm:py-16 lg:py-20">
         <CategoryPageContent
-          category={params.category}
+          category={params.category} // 传递 category slug
           posts={paginatedPosts}
           currentPage={currentPage}
           totalPages={totalPages}
@@ -51,8 +51,8 @@ export default function CategoryPage({ params, searchParams }: CategoryPageProps
 
 // 生成静态路由
 export function generateStaticParams() {
-  const categories = Object.keys(CATEGORY_MAP)
+  const categories = Object.keys(CATEGORY_MAP) // 会自动使用更新后的 CATEGORY_MAP 的键
   return categories.map((category) => ({
     category,
   }))
-} 
+}

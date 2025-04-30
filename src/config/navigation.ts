@@ -13,14 +13,13 @@ import {
   FaRobot,
   FaWeixin,
   FaFeather,
+  FaMicroscope,
+  FaTools,
+  FaFlask,
+  FaPaintBrush,
+  FaProjectDiagram,
 } from 'react-icons/fa'
-import { allPosts } from 'contentlayer/generated'
 import { createCategoryRoute } from '@/lib/routes'
-
-// 获取每个分类的文章数量
-const getCategoryCount = (category: string) => {
-  return allPosts.filter((post) => post.category === category).length
-}
 
 export const navigation: NavigationConfig = {
   main: [
@@ -29,34 +28,29 @@ export const navigation: NavigationConfig = {
   ],
   posts: [
     {
-      href: createCategoryRoute('dev'),
-      label: '编程开发',
-      icon: FaLaptopCode,
-      count: getCategoryCount('dev'),
+      href: createCategoryRoute('future-sketch'),
+      label: '未来素描',
+      icon: FaPaintBrush,
     },
     {
-      href: createCategoryRoute('ai'),
-      label: '人工智能',
-      icon: FaBrain,
-      count: getCategoryCount('ai'),
+      href: createCategoryRoute('application-concepts'),
+      label: '应用构想',
+      icon: FaProjectDiagram,
     },
     {
-      href: createCategoryRoute('build'),
-      label: '构建之路',
-      icon: FaRocket,
-      count: getCategoryCount('build'),
+      href: createCategoryRoute('practice-tracing'),
+      label: '实践摹本',
+      icon: FaMicroscope,
     },
     {
-      href: createCategoryRoute('reading'),
-      label: '阅读记录',
-      icon: FaBook,
-      count: getCategoryCount('reading'),
+      href: createCategoryRoute('toolbox-memo'),
+      label: '工具箱备忘',
+      icon: FaTools,
     },
     {
-      href: createCategoryRoute('thoughts'),
-      label: '思考随笔',
-      icon: FaLightbulb,
-      count: getCategoryCount('thoughts'),
+      href: createCategoryRoute('experiment-log'),
+      label: '实验记录',
+      icon: FaFlask,
     },
   ],
   projects: [

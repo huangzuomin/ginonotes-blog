@@ -3,7 +3,7 @@
 import { Post } from 'contentlayer/generated'
 import { PostCard } from '@/components/common/PostCard'
 import { motion } from 'framer-motion'
-import { getCategoryName, CATEGORY_MAP } from '@/lib/images'
+import { getCategoryName, CATEGORY_MAP } from '@/lib/images' // 确保导入了 getCategoryName 和 CATEGORY_MAP
 
 const container = {
   hidden: { opacity: 0 },
@@ -35,11 +35,11 @@ interface CategoryPageContentProps {
   totalPages: number
 }
 
-export function CategoryPageContent({ 
-  category, 
-  posts, 
-  currentPage, 
-  totalPages 
+export function CategoryPageContent({
+  category,
+  posts,
+  currentPage,
+  totalPages
 }: CategoryPageContentProps) {
   return (
     <motion.div
@@ -50,7 +50,7 @@ export function CategoryPageContent({
     >
       <motion.div variants={fadeInUp} className="space-y-4">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-          {getCategoryName(category as keyof typeof CATEGORY_MAP)}
+          {getCategoryName(category as keyof typeof CATEGORY_MAP)} {/* 使用 getCategoryName 显示中文名 */}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
           共 {posts.length} 篇文章
@@ -92,4 +92,4 @@ export function CategoryPageContent({
       )}
     </motion.div>
   )
-} 
+}
