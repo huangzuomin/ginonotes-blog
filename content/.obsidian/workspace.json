@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/application-concepts/自动化：效率提升的基础.mdx",
+                "file": "posts/application-concepts/test.mdx",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "自动化：效率提升的基础"
+              "title": "test"
             }
           }
         ]
@@ -184,7 +184,7 @@
   "active": "043bd49dbacf44ce",
   "lastOpenFiles": [
     "posts/Untitled.mdx",
-    "posts/application-concepts/自动化：效率提升的基础.mdx",
+    "posts/application-concepts/test.mdx",
     "posts/practice-tracing/Untitled 2.mdx",
     "posts/practice-tracing/Untitled 1.mdx",
     "posts/practice-tracing/Untitled.mdx",
