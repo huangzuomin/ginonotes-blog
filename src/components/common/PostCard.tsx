@@ -37,7 +37,7 @@ export function PostCard({
       {imageSrc && (
         <div className="relative h-48 w-full overflow-hidden">
           {/* 移除ref属性 */}
-          <Link className="absolute inset-0 z-10" aria-label={`Read more about ${title}`} href={url}>
+          <Link className="absolute inset-0 z-10" aria-label={`Read more about ${title}`} href={{ pathname: url }}>
             <span className="sr-only">Read more about {title}</span>
           </Link>
           <Image
@@ -68,7 +68,7 @@ export function PostCard({
 
         <h2 className="mb-2 text-lg font-semibold leading-tight text-gray-900 dark:text-gray-100">
           {/* 移除ref属性 */}
-          <Link className="hover:text-blue-600 dark:hover:text-blue-400" href={url}>
+          <Link className="hover:text-blue-600 dark:hover:text-blue-400" href={{ pathname: url }}>
             {title}
           </Link>
         </h2>
