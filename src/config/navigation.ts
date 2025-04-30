@@ -56,7 +56,7 @@ export const navigation: NavigationConfig = {
   projects: [
     { href: 'https://bestblogs.dev', label: 'BestBlogs.dev', icon: FaCode },
     { href: 'https://wenrun.ai', label: 'WenRun.ai', icon: FaFeather },
-    { href: 'https://hiagent.io', label: 'HiAgent.io', icon: FaRobot },
+    { href: 'https://xgo.ing', label: 'XGo.ing', icon: FaRobot },
     { href: 'https://tiky.ai', label: 'Tiky.ai', icon: FaLightbulb },
   ],
   online: [

@@ -1,0 +1,86 @@
+---
+title: OpenAI 全新智能体平台 [译]
+date: 2025-03-12
+description: OpenAI 发布全新智能体平台，包括 Responses API、Web Search、Computer Use 等工具，以及开源的 Agents SDK，为开发者提供更强大的智能体开发能力。
+category: ai
+tags: OpenAI, Agents Platform, Responses API, Web Search, Computer Use, Agents SDK
+cover: https://media.ginonotes.com/covers/cover_openai_agents_platform.jpeg
+slug: openai-agents-platform
+---
+
+import VideoPlayer from '@/components/common/VideoPlayer'
+
+尽管现在业界普遍认为 **[2025 年将是「智能体之年」](https://www.youtube.com/watch?v=5N33E9tC400)**，OpenAI 却在默默发力，为此目标积极布局。今年年初的两个月，他们相继推出了 **Operator** 和 **Deep Research**，堪称目前为止最成功的智能体之一。而今天，他们正在将这些能力中的诸多部分开放到 API 接口。
+
+*   [Responses API](https://platform.openai.com/docs/quickstart?api-mode=responses)（响应 API）
+*   [Web Search Tool](https://platform.openai.com/docs/guides/tools-web-search)（网页搜索工具）
+*   [Computer Use Tool](https://platform.openai.com/docs/guides/tools-computer-use)（计算机使用工具）
+*   [File Search Tool](https://platform.openai.com/docs/guides/tools-file-search)（文件搜索工具）
+*   一个全新的开源 [Agents SDK](https://platform.openai.com/docs/guides/agents)（智能体开发工具包），集成了 [Observability Tools](https://platform.openai.com/docs/guides/agents#orchestration)（可观测性工具）
+
+我们将在今天的 [YouTube](https://www.youtube.com/watch?v=QU9QLi1-VvU) 闪电播客中介绍所有这些内容以及更多精彩信息！
+
+<VideoPlayer src="https://www.youtube.com/embed/QU9QLi1-VvU?si=kpY7Eg5Gusvvlkd1" title="The new OpenAI Agents Platform: CUA, Web Search, Responses API, Agents SDK!!" />
+
+下面是细节部分。
+
+### Responses API（响应 API）
+
+![Responses API](https://imagedelivery.net/qGOFcc1O8XwTZW3W1JAHHg/914bf191-f1b1-42ff-8e2a-560a537b7600/public)
+
+在我们的 [Michelle Pokrass 那期节目](https://www.latent.space/p/openai-api-and-o1) 中，我们讨论过 Assistants API（助手 API）需要重新设计。今天，OpenAI 推出了 Responses API，这是一个更灵活的基础，供开发者构建智能体应用。它不仅是 Chat Completion API 的超集，更是开发者探索 OpenAI 模型的理想起点。
+
+其中一个重要的升级是为响应 API 提供了一套新的内置工具：网页搜索、计算机使用和文件搜索。
+
+### Web Search Tool（网页搜索工具）
+
+之前我们曾在播客中邀请了 [Exa AI](https://www.latent.space/p/exa) 来讨论 AI 的网页搜索。现在 OpenAI 也加入了这场网页搜索的竞争；Web Search API（网页搜索 API）实际上是一个新的"模型"，它公开了两个 4o 微调模型：`gpt-4o-search-preview` 和 `gpt-4o-mini-search-preview`。这些模型与 ChatGPT Search 使用的模型相同，价格分别为每 1000 次查询 30 美元和 25 美元。
+
+其强大的功能是内联引用：你不仅可以获得指向相关页面的链接，更能直接定位到结果页面中精准解答你疑问的具体位置。
+
+![Web Search Tool](https://imagedelivery.net/qGOFcc1O8XwTZW3W1JAHHg/f32e6cb9-05cf-456b-e9cd-f8fa56607e00/public)
+
+### Computer Use Tool（计算机使用工具）
+
+驱动 Operator 的模型名为 Computer-Using-Agent (CUA，计算机使用智能体），现在也可在 API 中使用。`computer-use-preview` 模型在大多数基准测试中都处于领先地位，在 OSWorld 上实现了 38.1% 的完整计算机使用任务成功率，在 WebArena 上实现了 58.1% 的成功率，在 WebVoyager 上实现了 87% 的基于 Web 的交互成功率。
+
+正如文档所示，`computer-use-preview` 不仅是一个模型，还是一个允许你自定义运行环境的强大工具。
+
+![Computer Use Tool](https://imagedelivery.net/qGOFcc1O8XwTZW3W1JAHHg/217b89bc-ab36-4146-76fd-6093337d8a00/public)
+
+使用价格为每 100 万个输入 tokens 3 美元，每 100 万个输出 tokens 12 美元，目前仅对第 3-5 层的用户开放。
+
+### File Search Tool（文件搜索工具）
+
+文件搜索也可在 Assistants API（助手 API）中使用，现在也已加入 Responses API。OpenAI 正在将搜索和 RAG（检索增强生成）技术集成到一个统一的平台中，我们肯定会看到更多人尝试在 OpenAI 上找到构建一体化应用的新方法。
+
+使用价格为每千次查询 2.50 美元，文件存储价格为每天每 GB 0.10 美元，首 GB 免费。
+
+![File Search Tool](https://imagedelivery.net/qGOFcc1O8XwTZW3W1JAHHg/74a0a584-d207-4422-09dc-62a9c4c1f800/public)
+
+### Agent SDK（智能体 SDK）：Swarms++!
+
+https://github.com/openai/openai-agents-python
+
+![Agent SDK](https://imagedelivery.net/qGOFcc1O8XwTZW3W1JAHHg/4b675999-7f6a-4497-22a0-ca07a2694e00/public)
+
+为了实现更强大的整合，在 [Swarm](https://github.com/openai/swarm/) 广受欢迎之后，OpenAI 正式发布官方支持的智能体框架，该框架在 [我们的 AI Engineer Summit 上进行了预览](https://www.youtube.com/watch?v=joHR2pmxDQE)，包含4 个核心部分：
+
+*   **智能体（Agents）**：可轻松配置的 LLM，具备明确的指令和内置工具。
+*   **移交（Handoffs）**：智能地实现智能体之间的控制权转移。
+*   **安全护栏（Guardrails）**：可配置的安全检查机制，用于输入和输出的有效性验证。
+*   **追踪与可观测性（Tracing & Observability）**：将智能体执行的轨迹可视化呈现，用于调试和性能优化。
+
+多智能体工作流程将长期存在！
+
+![Example](https://imagedelivery.net/qGOFcc1O8XwTZW3W1JAHHg/e0b5fa25-3d7f-49c7-555e-8b28d2388200/public)
+
+为了实现更完善的智能体应用，OpenAI 目前正在设计一系列 [常见的智能体应用模式](https://github.com/openai/openai-agents-python/tree/main/examples/agent_patterns) ，这些模式包括：工作流、移交、智能体即工具、大语言模型即裁判、并行化和安全护栏。OpenAI 在纽约演讲的第二部分中透露了这一点：
+
+<VideoPlayer src="https://www.youtube.com/embed/joHR2pmxDQE?si=B0Dr_keSaDAJ0z5n" title="YouTube video player" />
+
+当然，也可以在观看以下发布会的直播内容：
+
+<VideoPlayer src="https://www.youtube.com/embed/hciNKcLwSes?si=KNR6oNKYUcOg3bGT" title="YouTube video player" />
+
+原文链接：[⚡️ The new OpenAI Agents Platform](https://www.latent.space/p/openai-agents-platform)
