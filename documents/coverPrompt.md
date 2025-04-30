@@ -31,7 +31,7 @@
 
 ## 提示词模板
 
-```
+```text
 A minimalist tech illustration [SPECIFIC_THEME]. Isometric design with a clean grid system. [MAIN_ELEMENT_DESCRIPTION].
 
 Key elements:
@@ -61,7 +61,7 @@ Additional details:
 
 ## 示例一：AI Agent 文章封面
 
-```
+```text
 A minimalist tech illustration of a cognitive architecture diagram, showing six ascending levels from pure code to autonomous agent, cyberpunk style. Clean white background with subtle blue gradient. Each level represented by interconnected neural pathways becoming increasingly complex from bottom to top.
 
 Key elements:
@@ -91,7 +91,7 @@ Additional details:
 
 ## 示例二：Cloud Computing 文章封面
 
-```
+```text
 A minimalist tech illustration representing cloud computing and developer tools. Isometric design with a clean grid system. Central focus on interconnected hexagonal nodes representing global network, with subtle floating UI elements showing code snippets and database symbols.
 
 Key elements:
@@ -135,4 +135,4 @@ Additional details:
 2. 调整关键元素以匹配具体内容
 3. 保持核心设计语言不变
 4. 可以适当调整强调色以匹配主题
-5. 确保所有必要的设计元素都在提示词中明确描述 
+5. 确保所有必要的设计元素都在提示词中明确描述

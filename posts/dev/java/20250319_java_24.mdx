@@ -1,0 +1,199 @@
+---
+title: Java 24 与 IntelliJ IDEA[译]
+description: Java 24 带来了简化 Java 入门和提升代码效率的新特性。简化的源文件和 main 方法降低了新手门槛，原始类型模式匹配和模块导入声明提升了代码简洁性，灵活的构造器主体增强了代码健壮性。IntelliJ IDEA 全面支持这些特性，助力开发者高效拥抱 Java 24 的改进。核心目标是让 Java 开发更简洁、高效。
+date: 2025-03-19
+category: dev
+tags: Java, IDEA, Java 24, New Features
+slug: java-24-and-intellij-idea
+cover: https://media.ginonotes.com/covers/cover_java24.jpeg
+---
+
+import VideoPlayer from '@/components/common/VideoPlayer'
+
+IntelliJ IDEA 早就开始全面支持 Java 24 了，而且还在持续完善相关功能！
+
+经常有人问我："Java 24 中最好的特性是什么？"我的回答是：干嘛非得挑一个呢？全都好用！🙂
+
+[Java 24](https://openjdk.org/projects/jdk/24/) 持续增强 Java 语言，带来了诸多改进，例如 [简化的源文件和实例 main 方法](https://openjdk.org/jeps/495)、[模式匹配、instanceof 和 switch 中的原始类型](https://openjdk.org/jeps/488)、[模块导入声明](https://openjdk.org/jeps/494)、[灵活的构造器主体](https://openjdk.org/jeps/492) 以及 API 增强，比如 [Stream Gatherers](https://openjdk.org/jeps/485)，当然还有更多特性。
+
+Java 最大的优点之一就是它有规律的六个月发布周期，这使得开发者能够定期探索生产和预览功能。然而，每六个月就要跟进新功能，这可能会让人感到应接不暇。在这篇博文中，我将带你了解 Java 24 的几个关键特性，包括它们是什么、如何使用它们以及 IntelliJ IDEA 如何支持它们。但在此之前，请确认你的环境已正确配置。
+
+## 简化的源文件和实例 main 方法 (JEP 495)
+
+隐式类、自动导入以及更简洁的 `main()` 方法和 `println()` 调用，使 Java 入门变得更加简单。如果你是一位经验丰富的开发者，这些特性可以帮助你用更少的代码行创建脚本、游戏和实用工具。
+
+如果你对这一特性不太了解，建议先阅读我的入门博文 —— [Java 24：HelloWorld 与 main() 的极简化相遇](https://blog.jetbrains.com/idea/2024/02/helloworld-and-main-meet-minimalistic/) 和详细博文 —— [Java 24：用更少的样板代码构建游戏、原型、实用工具等](https://blog.jetbrains.com/idea/2025/02/java-24-build-games-prototypes-utilities-and-more-with-less-boilerplate/)，其中讨论了它的实际用例。这个特性不仅可以帮助新开发者开始编写程序，比如 [简单计算](https://blog.jetbrains.com/idea/2024/02/helloworld-and-main-meet-minimalistic/#example-1.-variable-declarations,-assignments-and-simple-calculations)、[打印图案](https://blog.jetbrains.com/idea/2024/02/helloworld-and-main-meet-minimalistic/#example-2.-print-patterns,-such-as,-big-letters-using-a-specified-character)，通过创建 [简单的控制台和基于 GUI 的游戏](https://blog.jetbrains.com/idea/2025/02/java-24-build-games-prototypes-utilities-and-more-with-less-boilerplate/#1.-build-games-and-create-interesting-graphics)享受编程的乐趣，还可以帮助经验丰富的开发者创建实用工具，比如 [处理文件](https://blog.jetbrains.com/idea/2025/02/java-24-build-games-prototypes-utilities-and-more-with-less-boilerplate/#2.-processing-log-files) 或 [访问 Web 资源](https://blog.jetbrains.com/idea/2025/02/java-24-build-games-prototypes-utilities-and-more-with-less-boilerplate/#3.-building-utilities,-such-as-a-stock-price-scraper)。
+
+在本节中，我将重点介绍 IntelliJ IDEA 对此 Java 特性的支持。
+
+### 创建一个带有实例 main 方法的简单源文件
+
+当你使用 IntelliJ IDEA 创建和运行简单文件时，你可以像运行任何其他可执行类一样运行它（这可以省去指定编译或运行时命令行参数的麻烦）。如果你忘记将语言级别设置为 24，IntelliJ IDEA 可以检测到这一点并提示你进行设置（如下所示）：
+
+![创建一个带有实例 main 方法的简单源文件](https://media.ginonotes.com/images/20250319_java_24/new-proj.gif)
+
+### 将隐式类更改为常规类
+
+当你准备进一步使用诸如用户自定义类等更复杂概念时，可能需要将隐式类转换成常规类。你可以使用上下文操作"Convert implicitly declared class into regular class"（将隐式声明的类转换为常规类），如下所示（此操作将添加相关的 import 语句）：
+
+![将隐式类更改为常规类](https://media.ginonotes.com/images/20250319_java_24/convert-to-reg-class.gif)
+
+### 将常规类转换为隐式类
+
+有时，打包的类最适合作为隐式类，因为它可能没有使用常规类的相关概念。在这种情况下，你可以使用操作"Convert into implicitly declared class"（转换为隐式声明的类）来实现这一点（如下所示）。在转换过程中，IntelliJ IDEA 将删除不再需要的 import 语句：
+
+![将常规类转换为隐式类](https://media.ginonotes.com/images/20250319_java_24/explicit-to-implicit.gif)
+
+### 幕后花絮 —— 带有实例方法 main() 的隐式类
+
+在幕后，Java 编译器创建了一个隐式的顶层类，带有一个无参数构造函数，这样这些类就不需要以不同于常规类的方式来处理。
+
+下面的 GIF 为你展示了源文件 AnimateText.java 的反编译类（通过 IntelliJ IDEA 中的反编译器功能）：
+
+![反编译](https://media.ginonotes.com/images/20250319_java_24/decompile.gif)
+
+### 与控制台交互 —— println() 与 System.out.println() 调用
+
+为了让新开发者更容易与控制台交互，也就是向控制台输出消息并从控制台读取输入，Java 23 中创建了一个新类 —— `java.io.IO`。它只包含几个重载的 `readln()` 和 `println()` 方法（如下所示）：
+
+![IO 类结构](https://media.ginonotes.com/images/20250319_java_24/IO-class-struc.png)
+
+类 `java.io.IO` 会自动导入到隐式类中。因此，现在你可以使用 `println()` 向控制台输出消息（以及使用 `readln()` 从控制台读取消息），无需使用 `System.out.println()`。有趣的是，`println()` 是在 Java 24 中添加到这个类中的。
+
+### 隐式类中的重载 main 方法
+
+当你在隐式类中重载 `main()` 方法时，需要考虑一个优先级顺序，以确定"真正的" `main()` 方法。以下所有方法都是隐式类中 `main()` 方法的有效签名：
+
+```java
+public static void main(String args[]) {}
+public void main(String args[]) {}
+public static void main() {}
+static void main() {}
+public void main() {}
+void main() {}
+```
+
+当你在隐式类中重载 `main()` 方法时，IntelliJ IDEA 会在正确或首选的"main"方法旁边显示运行图标：
+
+![选择 main 方法](https://media.ginonotes.com/images/20250319_java_24/which-main.gif)
+
+### 隐式类中缺少 main 方法
+
+如果在隐式类中没有检测到有效的 main 方法，IntelliJ IDEA 可以为你添加一个，如下面的 GIF 所示：
+
+![创建一个 main 方法](https://media.ginonotes.com/images/20250319_java_24/create-a-main-method.gif)
+
+## 原始类型在模式匹配、instanceof 和 switch 中的应用（预览功能）
+
+特性[模式匹配、instanceof 和 switch 中的原始类型](https://openjdk.org/jeps/488)目前处于第二次预览阶段，它通过在所有模式中加入原始类型来增强 Java 的模式匹配能力。这允许你直接将原始类型模式与 instanceof 和 switch 表达式一起使用（以前仅限于对象），从而简化代码并减少手动类型转换的需要。
+
+### 快速示例
+
+此特性使你可以在带有守卫模式 (guard patterns) 的 switch 表达式中使用原始类型，如下所示：
+
+```java
+public String getHTTPCodeDesc(int code) {
+   return switch(code) {
+       case 100 -> "Continue";
+       case 200 -> "OK";
+       case 301 -> "Moved Permanently";
+       case 302 -> "Found";
+       case 400 -> "Bad Request";
+       case 500 -> "Internal Server Error";
+       case 502 -> "Bad Gateway";
+       case int i when i > 100 && i < 200 -> "Informational";
+       case int i when i > 200 && i < 300 -> "Successful";
+       case int i when i > 302 && i < 400 -> "Redirection";
+       case int i when i > 400 && i < 500 -> "Client Error";
+       case int i when i > 502 && i < 600 -> "Server Error";
+       default                            -> "Unknown error";
+   };
+}
+```
+
+类似地，你可以将原始类型与 `instanceof` 运算符一起使用。
+
+此特性正在再次预览，没有任何更改。我在之前的博文 —— [Java 23 与 IntelliJ IDEA](https://blog.jetbrains.com/idea/2024/09/java-23-and-intellij-idea/#primitive-types-in-patterns,-instanceof,-and-switch-preview-feature) 中介绍了此特性以及 IntelliJ IDEA 如何支持它。我建议你查看该博文以了解详细信息。这篇博文回答了诸如将原始类型添加到模式匹配意味着什么、多个示例以及 [IntelliJ IDEA 中强大的数据流分析](https://blog.jetbrains.com/idea/2024/09/java-23-and-intellij-idea/#robust-data-flow-analysis-in-intellij-idea) 等问题。
+
+### 对此特性的创建者的采访
+
+我们还采访了此特性的负责人，Oracle 的首席技术人员 [Aggelos Biboudis](https://x.com/biboudis)、Oracle 的 Java 语言架构师 [Brian Goetz](https://x.com/BrianGoetz) 以及 JetBrains 的 Java 团队技术负责人 [Tagir Valeev](https://x.com/tagir_valeev)。
+
+查看采访，了解为什么将原始数据类型添加到 Java 语言的更宏观的原因，以及他们提出的更改的更精细的细节。
+
+## 模块导入声明
+
+[模块导入声明](https://openjdk.org/jeps/494) 处于第二次预览阶段，它使你可以在单个声明中导入模块导出的所有包。它简化了模块化库的重用，而无需导入代码本身进行模块化。例如，声明 `import module java.base;` 导入 java.base 模块导出的包中的所有公共顶层类和接口，从而无需多个单独的 import 语句。这提高了代码的可读性，尤其是在使用广泛的 API 时。
+
+### 快速示例
+
+假设你的代码包含多个 import 语句，如下所示：
+
+```java
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.lang.reflect.*;
+import java.nio.*;
+```
+
+这些可以被一个 import module 语句替换，如下所示：
+
+```java
+import java.base.*;
+```
+
+### 哪些包由模块 java.base（或其他模块）导出？
+
+当你使用 IntelliJ IDEA 时，回答这个问题很简单。单击编辑器中的模块名称或使用相关的快捷方式（转到声明或用法），你可以查看此模块的定义，找出此模块导出的所有模块。这在下面的 GIF 中展示：
+
+![java base 模块](https://media.ginonotes.com/images/20250319_java_24/java-base-mod.gif)
+
+### 对此特性的创建者的采访
+
+我们还采访了此特性的负责人，Oracle 的编程语言设计师 [Gavin Bierman](https://x.com/GavinBierman)。
+
+Gavin 介绍了单类型导入和按需类型导入声明之间的差异，解释了它们是什么，以及为什么个人和组织更偏好一种风格而非另一种。他还谈到了"模块导入声明"特性如何自动按需从模块的传递依赖项中导入。他介绍了有歧义的导入以及如何处理它们、名称歧义问题，以及如何向 OpenJDK 团队提交有关此特性的相关反馈。
+
+<VideoPlayer src="https://www.youtube.com/embed/tqBV4MZ-qSM?si=aPi1uk_14kvCU_r7" title="YouTube video player" />
+
+## 灵活的构造器主体
+
+该特性目前为第三次预览，当超类从其构造函数中调用一个方法，并且你想要在子类中重写此方法并想要从此方法内部访问子类中的字段时，此特性非常有用。以前，当从超类构造函数调用该方法时，子类字段不会被初始化。现在可以初始化该字段并防止意外情况发生。以下代码展示了此特性：
+
+```java
+abstract class Action {
+   public Action() {
+       System.out.println("performing " + getText());
+   }
+   public abstract String getText();
+}
+class DoubleAction extends Action {
+   private final String text;
+   private DoubleAction(String text) {
+       this.text = text; // 在启用预览功能的情况下，这在 Java 23 之前无法编译。
+       super();
+   }
+   @Override public String getText() {
+       return text + text;
+   }
+}
+```
+
+如果你不熟悉此特性，请不要错过我关于此特性的详细博文 [Java 22 中的构造函数改造 | The IntelliJ IDEA Blog](https://blog.jetbrains.com/idea/2024/02/constructor-makeover-in-java-22/)，其中讨论了此特性的原因和方式。
+
+## 预览语言特性
+
+这篇博文中介绍的特性是预览语言特性，而不是生产功能。借助 Java 新的六个月发布周期，新的语言特性会作为预览语言特性发布。它们可能会在以后的 Java 版本中以第二次或更多次预览的形式重新引入，无论是否进行更改。一旦它们足够稳定，它们可能会作为标准语言特性添加到 Java 中。
+
+预览语言特性是完整的但不是永久的，这实质上意味着这些特性已准备好供开发者使用，尽管它们的更精细的细节可能会在未来的 Java 版本中根据开发者反馈而更改。与 API 不同，语言特性在未来不能被弃用。因此，如果你对任何预览语言特性有反馈，请随时在 JDK 邮件列表中分享（需要免费注册）。
+
+由于这些特性的工作方式，IntelliJ IDEA 致力于仅支持当前 JDK 的预览功能。预览语言特性可能会在不同的 Java 版本中发生变化，直到它们被删除或作为标准语言特性添加。使用来自较旧版本的 Java SE 平台的预览语言特性的代码可能无法在新版本上编译或运行。
+
+## 总结
+
+Java 24 引入了关键的增强功能，例如简化的源文件、原始类型模式、模块导入声明和灵活的构造器主体。IntelliJ IDEA 早就开始支持 Java 24 了，而且还在不断持续完善功能！
+
+总而言之，Java 24 带来了诸多令人兴奋的新特性，而 IntelliJ IDEA 则凭借其强大的智能辅助功能，如智能代码提示、无缝转换和强大的分析能力，让开发者能够轻松拥抱 Java 24，享受更流畅、高效的开发体验！
+
+原文链接：[Java 24 and IntelliJ IDEA](https://blog.jetbrains.com/idea/2025/03/java-24-and-intellij-idea/)

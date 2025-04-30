@@ -1,0 +1,199 @@
+---
+title: 为何模型上下文协议 (MCP) 最终会获胜？[译]
+date: 2025-03-12
+description: 本文深入分析了模型上下文协议 (MCP) 快速崛起并有望成为智能体领域主导标准的深层原因。文章从技术、生态、品牌、协议基础、实践和迭代等多个维度，阐述了 MCP 相对于其他方案的优势，认为其成功是多种因素共同作用的结果。
+category: ai
+tags: MCP, AI, Agent, LLM, Tools
+cover: https://media.ginonotes.com/covers/cover_why_mcp_won.jpeg
+slug: why-mcp-won
+---
+
+import VideoPlayer from '@/components/common/VideoPlayer'
+
+亲爱的 AI 工程师们：
+
+**很抱歉，最近大家可能被 MCP 刷屏了哈。**
+
+模型上下文协议 (MCP) 于 2024 年 11 月发布，尽管最初反响不错，但热潮很快就退去。不过，在 2 月 26 - 27 日的 AI 工程师峰会上，我与 Barry Zhang 的一次机缘巧合的对话，促使我们邀请到了负责开发 MCP 服务器的 Mahesh Murag。我当时只是觉得这会比 Anthropic 2023 年和 2024 年提示工程研讨会更有新意，没想到结果却火了：
+
+<VideoPlayer src="https://www.youtube.com/embed/kQmXtrmQ5Zg?si=aywQty3NH7D8NBsm" title="YouTube video player" />
+
+通常来说，研讨会现场效果都不错，但线上观众很难集中注意力听完两个小时，这是常态。然而，这次研讨会的实时推文却开始走红，因为社区首次获得了备受期待的官方注册表的相关消息，以及对协议规范各个方面的全面深入探讨，如下图所示：
+
+![MCP Deep-Dive](https://media.ginonotes.com/images/20250312_why_mcp_won/mcp-deep-dive.webp)
+
+于是，我们赶紧加快了剪辑速度，把研讨会视频放了出来。在过去一周内，该视频累计观看次数接近 30 万（约 300,000）次，结果就变成了：
+
+![Everybody complaining](https://media.ginonotes.com/images/20250312_why_mcp_won/everybody-complaining.webp)
+
+大家都开始抱怨 MCP 的内容太多了。
+
+我在 Latent Space 上的一个目标是，争取以不同于主流的视角率先提出编辑观点。去年 11 月，我们表示「GPT 套壳实际上是好主意」，现在 a16z 也对此感到兴奋。去年 12 月，我们告诉那些不喜欢每月 200 美元 Pro 版本的人，「你们都错了，每月 2000 美元的 'ChatGPT Max' 即将到来」，现在我们已经确认「计划推出每月 2000 - 20000 美元的智能体」。但我不得不承认，MCP 的受欢迎程度甚至让我自己都感到惊讶，主要是因为我见过太多尝试重蹈 [XKCD 927](https://xkcd.com/927/) 的覆辙，但都失败了。而且 MCP 最初的定位是为 Claude Desktop 编写本地的、尊重隐私的集成，我敢打赌，只有一小部分 AI 工程师下载过 Claude Desktop（相比之下，ChatGPT Desktop 甚至 Raycast AI 的用户更多）。
+
+尽管我们促成了这次研讨会的举办，但我仍然觉得我低估了 MCP 的潜力。
+
+套用 Ben Thompson 的话来说，任何网络的首要特征是已经存在于其中的用户。因此，**任何新协议的力量都源于其采用率（即生态系统）**。可以肯定地说，MCP 目前已经获得了足够的临界质量和发展势头，它已经成为 2023 - 2025 年「智能体开放标准」之战中假定的赢家。按照目前的速度，**MCP 将在 7 月份超越 OpenAPI**：
+
+![Star History](https://media.ginonotes.com/images/20250312_why_mcp_won/star-history.webp)
+
+[你可以自己查看](https://www.star-history.com/#modelcontextprotocol/servers&crewAIInc/crewAI&langchain-ai/langgraph&pydantic/pydantic-ai&openai/swarm&Div99/agent-protocol&meta-llama/llama-stack&Timeline)。如果你好奇，可以添加 Langchain，但它会使图表过于倾斜。
+
+像 Kubernetes、React 和 HTTP 这样被广泛接受的标准，通过将爆炸性的 MxN 问题转化为易于处理的 M+N 生态系统解决方案，来适应各种各样的数据发送者和消费者，因此，如果它们能够获得临界质量，那么它们就非常有价值。事实上，即使是 OpenAI 也拥有之前的 AI 标准，Gemini、Anthropic 和 Ollama 都在宣传与 OpenAI SDK 的兼容性。
+
+我并不自大到认为 AIE 峰会的研讨会 *导致了* 这种加速；我们只是为已经蔓延的火焰添了一把柴。但作为长期关注开发者工具创业公司的从业者，我看到许多公司试图为开放标准创造势头，但都失败了。我觉得我不能错过这个机会，在它还新鲜的时候更深入地研究它，以便为未来的标准创建提供指导。此外，我每天都会被问到两次关于我对 MCP 的看法，所以现在是时候把它写下来了。
+
+## 为何 MCP 胜出（概览）
+
+*也就是作为事实上的标准而「胜出」，胜过并非完全等同但却是替代方法的方案，如 OpenAPI 和 LangChain/LangGraph。大致按重要性降序排列。*
+
+1.  **MCP 是旧理念的「AI 原生」版本**
+2.  **MCP 是一个拥有强大支持者的「开放标准」**
+3.  **Anthropic 拥有最佳的开发者 AI 品牌**
+4.  **MCP 基于 LSP，一种现有的成功协议**
+5.  **MCP 通过完整的第一方客户端、服务器、工具和 SDK 进行充分的实践（Dogfooding），并通过内部使用验证了这些工具的实用性**
+6.  **MCP 起步于最小的基础，但会频繁随着路线图更新**
+7.  **非促成因素：** 那些我们认为令人惊讶地*没有* 促进 MCP 成功的方面
+
+    *   与 Zed、SourceGraph Cody 和 Replit 等启动合作伙伴合作
+    *   发布出色的文档
+
+我现在将结合一些截图来详细说明。
+
+![MCP solves problems](https://media.ginonotes.com/images/20250312_why_mcp_won/mcp_solve_problems.webp)
+
+看看，又一个 [万能盒子](https://x.com/swyx/status/1629553997416910849)：「我们可以通过引入一个额外的间接层来解决任何问题。」
+
+## MCP 是旧理念的「AI 原生」版本
+
+许多「老派开发者」，包括我自己，最初会对 MCP 的成功感到困惑，因为从技术层面来看，MCP 基本上能够实现与 OpenAPI / OData / GraphQL / SOAP 等现有标准相同类型的能力。*因此，人们会理所当然地认为，更老、更可靠（Lindy）的标准应该胜出。*
+
+然而，仅仅从技术角度来否定一个想法，就是忽视了人类工程师所处的社会环境。换句话说，若仅因旧方案也能实现相同功能就认为理应选择旧方案，这种论调显得过于简单，如同时尚界中每个开发者都会遇到的 [Lavers' Law](https://css-tricks.com/its-always-year-zero/) 谬论，就像你认为 [AI 工程师的崛起](https://www.latent.space/p/ai-engineer) 与现有工作岗位足够相似，从而否定它一样。套用 [Eugene Wei 的 Status as a Service](https://www.eugenewei.com/blog/2019/2/19/status-as-a-service) 中的话来说，新的开发者一代总会积极寻求新的突破，以在各自领域中留下独特印记，这主要是因为你已经在你的领域里留下了自己的印记。
+
+协议价值的 [自反性](https://www.swyx.io/mimicry-reflexivity) —— 记住，它们只有在被采用后才有价值 —— 意味着这些想法在 *事先* 几乎没有任何价值。MCP 之所以有价值，是因为 AI 影响者认为它有价值，因此它 *才变得有价值*。
+
+然而，如果说 MCP 与 OpenAPI 完全等同，并且仅仅是愤世嫉俗的时尚周期推动了它的成功，那也太过于简单化了。这就是为什么我选择将这个成功因素描述为「**AI 原生**」—— 在这种情况下，MCP 诞生于 [Claude Sonnet 在 SWE-Bench 中取得第一名](https://www.latent.space/p/claude-sonnet) 的经验教训，并在 [构建有效智能体](https://www.anthropic.com/engineering/building-effective-agents) 中得到了阐述，主要是这张幻灯片：
+
+![Building effective agents with MCP](https://media.ginonotes.com/images/20250312_why_mcp_won/building_effective_agents_with_mcp.webp)
+
+对于每个智能体中已经独立重复出现的模式进行具体化的「AI 原生」标准，总是比在没有这些偏见的情况下设计的不可知标准更符合人体工程学，并且更容易构建工具。
+
+**因此，MCP 胜过 OpenAPI。**
+
+其次，回到这张幻灯片，关注**工具**（模型控制）、**资源**（应用程序控制）和**提示**（用户控制）之间阐述的差异。
+
+![MCP Deep-Dive](https://media.ginonotes.com/images/20250312_why_mcp_won/mcp-deep-dive.webp)
+
+MCP 的「AI 原生」特性是在最初的大语言模型 (LLM) 框架浪潮 *之后* 诞生的，这意味着它有足够的喘息空间来抵制从 LLM 互操作性开始做「显而易见」的事情（现在这些问题已经得到解决，并且可能由 [客户端](https://modelcontextprotocol.io/clients) 和 [网关](https://www.latent.space/p/gateway) 拥有），而是聚焦于将动态上下文接入作为核心问题，非常明确地表明 MCP 的动机是「[模型的好坏取决于提供给它们的上下文](https://youtu.be/kQmXtrmQ5Zg?si=ziw3VJ3Rb2V1Tevp&t=103)」）。
+
+**因此，MCP 胜过 LangChain 等。**
+
+## MCP 是一个拥有强大支持者的「开放标准」
+
+对于那些希望最好的想法获胜的理想主义者来说，这也许是最令人沮丧的：来自大型实验室的标准比来自其他任何人的标准都更容易成功。即使是那些拥有数万个 Github 星星和数千万美元顶级风险投资资金的标准。这没有任何公平可言；如果你的创业公司的财务未来激励你将我锁定在你的标准中，我就不会采用它。如果标准的支持者看起来太大而不在乎将你锁定在标准中，那么我就会采用它。
+
+**因此，MCP 胜过 Composio 等。**
+
+任何「开放标准」都应该有一个规范，而 [MCP 有一个非常好的规范](https://spec.modelcontextprotocol.io/specification/2024-11-05/)。仅凭这个规范就击败了很多竞争者，因为它们没有提供如此详细的规范。
+
+**因此，MCP 胜过许多开源框架，** 甚至可以说是 OpenAI 的函数调用，因为它们的 [文档](https://platform.openai.com/docs/guides/function-calling#defining-functions) 略低于一个完全详尽的规范。
+
+## Anthropic 拥有最佳的开发者 AI 品牌
+
+也许与背后有强大的支持者这一事实同样重要的是，*是哪个* 强大的支持者。**如果你要构建一个开发者标准，那么被开发者喜爱会有所帮助。** Sonnet 在这方面已经称霸了近 9 个月。
+
+![LLM Code Skill](https://media.ginonotes.com/images/20250312_why_mcp_won/llm_code_skill.webp)
+
+https://aider.chat/docs/leaderboards/by-release-date.html
+
+对于新手来说，可能容易忽略一个更微妙的点 —— Anthropic 始终明确强调支持比 OpenAI 更多的工具 —— 虽然我们没有相关消融实验数据对比各模型的工具数量，但直观来看，MCP 能够在单次调用中集成更多工具，而这种优势并非源自技术限制，而在于其易于集成的特性。因此，能够更好地处理更高工具数量的模型会做得更好。
+
+![LLM Tool Use](https://media.ginonotes.com/images/20250312_why_mcp_won/llm_tool_use.webp)
+
+https://x.com/swyx/status/1775993946935906645ll
+
+**因此，MCP 胜过其他公司（例如 Cisco）的同等开发者标准。**
+
+## MCP 基于 LSP，一种现有的成功协议
+
+「拥有强大支持者的开放标准」声明的另一部分要求该标准没有任何致命缺陷。Anthropic 团队没有从头开始临时发明一个标准，从而冒着重新审理过去所有错误的风险，而是非常聪明地采用了微软非常成功的 [语言服务器协议 (LSP)](https://microsoft.github.io/language-server-protocol/)。
+
+![LSP](https://media.ginonotes.com/images/20250312_why_mcp_won/lsp.webp)
+
+https://x.com/dsp_/status/1897821339332882617
+
+同样，从研讨会中可以看出，人们敏锐地意识到 MCP 与 LSP 的比较：
+
+![LSP & MCP](https://media.ginonotes.com/images/20250312_why_mcp_won/lsp_mcp_comparation.webp)
+
+理解这一点的最佳方法是查看任何其他试图获得大规模采用的 AI 原生开源竞争对手，然后尝试思考一下，你是否能够像添加 MCP 一样轻松地将它们添加到 Cursor/Windsurf 中。通常，竞争对手更多地被设计为作为项目中的模块使用，而非以一种普适的消息格式供所有人调用；而 MCP 则坚持采用从 LSP 继承来的 JSON RPC 传递消息，从而实现了客户端与服务器之间的高度互通性。
+
+**因此，MCP 胜过其他更「未经证实」的标准格式。**
+
+## MCP 通过完整的第一方客户端、服务器、工具和 SDK 进行充分的实践，并通过内部使用验证了这些工具的实用性
+
+MCP 发布时带有：
+
+*   **客户端**：[Claude Desktop](https://x.com/alexalbert__/status/1861079874385203522)
+*   **服务器**：[19 个参考实现](https://modelcontextprotocol.io/examples)，包括用于 [内存](https://x.com/swyx/status/1861441838114337233)、[文件系统（神奇！）](https://www.reddit.com/r/ClaudeAI/comments/1h4yvep/mcp_filesystem_is_magic/) 和 [顺序思考](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) 的有趣实现
+*   **配套工具**：[MCP Inspector, Claude Desktop DevTools](https://modelcontextprotocol.io/docs/tools/debugging)
+*   **SDK**：[Python](https://github.com/modelcontextprotocol/python-sdk) 和 [TS SDK](https://github.com/modelcontextprotocol/typescript-sdk)，以及 [llms-full.txt](https://modelcontextprotocol.io/tutorials/building-mcp-with-llms) 文档
+
+此后，最近的 [Claude Code](https://ai-claude.net/code/) 也偷偷地加入了来自 Anthropic 的 ***第二个*** 官方 MCP 客户端，这次是以 CLI 形式：
+
+![Claude Code](https://media.ginonotes.com/images/20250312_why_mcp_won/claude_code.webp)
+
+https://x.com/willccbb/status/1898858751685255398
+
+这全部来自 Anthropic 开发者的真实使用案例。
+
+**因此，MCP 胜过其他大公司的较少内部测试尝试，例如 Meta 的 llama-stack。**
+
+## MCP 起步于最小的基础，但会频繁随着路线图更新
+
+开发者工具中最重要的概念之一是拥有最简化的接口：
+
+![Minimal API](https://media.ginonotes.com/images/20250312_why_mcp_won/minimal_api.webp)
+
+[youtube](https://www.youtube.com/watch?v=4anAwXYqLG8)
+
+对于 MCP 有多小，不同的人可能会有不同的看法：
+
+![MCP API Discuss](https://media.ginonotes.com/images/20250312_why_mcp_won/minimal_api_discuss.webp)
+
+https://x.com/dsp_/status/1898087775637012736
+
+但你不能否认 MCP 持续更新的步伐：
+
+![MCP Updates](https://media.ginonotes.com/images/20250312_why_mcp_won/mcp_update_notification.webp)
+
+https://x.com/alexalbert__/status/1874853921543553147
+
+当然，在研讨会期间也发布了新的更新：官方 MCP 注册表的计划（当然会立即成为第一注册表，尽管 [人们对去中心化注册表感到兴奋](https://x.com/calcsam/status/1899135067349565572)）：
+
+![MCP Registry](https://media.ginonotes.com/images/20250312_why_mcp_won/mcp_registry1.webp)
+
+![MCP Registry](https://media.ginonotes.com/images/20250312_why_mcp_won/mcp_registry2.webp)
+
+远程服务器发现：
+
+![MCP Server Discovery](https://media.ginonotes.com/images/20250312_why_mcp_won/mcp_server_discovery.webp)
+
+还有：
+
+![And a lot more](https://media.ginonotes.com/images/20250312_why_mcp_won/mcp_more.webp)
+
+**因此，MCP 胜过其他启动后未能保持势头的标准。**
+
+## 轮到你了
+
+我是否遗漏了其他原因？请在下面写下你的想法，我将承认那些值得注意的原因！
+
+## 福利时间：MCP 研讨会记录
+
+为了方便研究，我将整个研讨会逐字记录并添加了时间戳，所以我将把转录文本留给你浏览和搜索，经过 Claude 轻微清理。阅读愉快！
+
+<VideoPlayer src="https://www.youtube.com/embed/kQmXtrmQ5Zg?si=EtsEwfeP0kHXAgWO" title="YouTube video player" />
+
+_译者注：视频转录文本见原文，此处省略，如需请阅读原文_
+
+原文链接：[Why MCP Won](https://www.latent.space/p/why-mcp-won)
